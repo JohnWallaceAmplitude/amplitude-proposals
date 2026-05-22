@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplitude for tastytrade — What We'd Help You Build</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1F3A;
+    --blue: #1D6FD6;
+    --blue-light: #EBF3FD;
+    --blue-mid: #B8D4F5;
+    --gold: #C8922A;
+    --gold-light: #FDF4E6;
+    --green: #1A8C5B;
+    --green-light: #E6F7F0;
+    --red: #D63B1D;
+    --red-light: #FDF0ED;
+    --muted: #6B7A8D;
+    --border: #E2E8F0;
+    --bg: #F8FAFD;
+    --white: #FFFFFF;
+    --text: #0B1F3A;
+    --text-light: #4A5568;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 48px 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .header {
+    margin-bottom: 48px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  .header h1 em { color: var(--blue); font-style: italic; }
+
+  .header .lede {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 640px;
+    line-height: 1.7;
+  }
+
+  .use-case {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .uc-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .uc-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .uc-title-block h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--navy);
+    font-weight: 400;
+    margin-bottom: 3px;
+  }
+
+  .uc-title-block .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .uc-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .tag-product { background: var(--blue-light); color: var(--blue); }
+  .tag-marketing { background: var(--gold-light); color: var(--gold); }
+  .tag-data { background: var(--green-light); color: var(--green); }
+
+  .uc-body {
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .uc-col h4 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .pain-list, .solution-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pain-list li, .solution-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--text-light);
+    line-height: 1.45;
+  }
+
+  .pain-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--red-light);
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .sol-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .pain-list li strong, .solution-list li strong {
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  .uc-metric {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .metric-pill {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+
+  .metric-pill strong {
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  .quote-section {
+    background: var(--navy);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .quote-section::before {
+    content: '"';
+    font-family: 'DM Serif Display', serif;
+    font-size: 80px;
+    color: rgba(255,255,255,0.1);
+    position: absolute;
+    top: 8px;
+    left: 24px;
+    line-height: 1;
+  }
+
+  .quote-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: white;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-attr {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .why-enterprise {
+    background: var(--blue-light);
+    border: 1px solid var(--blue-mid);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 36px;
+  }
+
+  .why-enterprise h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--navy);
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .why-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.45;
+  }
+
+  .why-item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .why-item strong { color: var(--navy); font-weight: 500; }
+
+  .footer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 8px;
+  }
+
+  .footer-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+  }
+
+  .footer-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .footer-card p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .step-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .step-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+
+  .step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Amplitude as <em>tastytrade's</em><br>product operating system</h1>
+
+</div>
+
+<!-- Use Case 1 -->
+<div class="use-case">
+  <div class="uc-header">
+    <div class="uc-number">1</div>
+    <div class="uc-title-block">
+      <h2>Funded account → first trade conversion</h2>
+      <div class="subtitle">Your most important and most broken funnel</div>
+    </div>
+    <div class="uc-tag tag-product">Product analytics</div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-col">
+      <h4>The problem you described</h4>
+      <ul class="pain-list">
+        <li><span class="pain-icon">!</span><div>Users apply, get approved, fund an account — then disappear without trading. <strong>You've done all the hard work and they still leave.</strong></div></li>
+        <li><span class="pain-icon">!</span><div>Your funnel has multiple milestones (apply → approve → fund → trade) but <strong>only the last two generate revenue.</strong></div></li>
+        <li><span class="pain-icon">!</span><div>You get good KYC data on risk profile but <strong>haven't been able to use it to personalize the onboarding path.</strong></div></li>
+        <li><span class="pain-icon">!</span><div>Left-side-of-curve customers (less sophisticated traders) are landing and churning because <strong>the product wasn't built for them — but they're coming through the door.</strong></div></li>
+      </ul>
+    </div>
+    <div class="uc-col">
+      <h4>What Amplitude would do</h4>
+      <ul class="solution-list">
+        <li><span class="sol-icon">→</span><div>Build a <strong>multi-step behavioral funnel</strong> across the full application → approval → funding → first trade path with precise drop-off visibility</div></li>
+        <li><span class="sol-icon">→</span><div>Use <strong>session replay auto-linked to drop-off events</strong> — watch exactly what funded-but-never-traded users did in their last session</div></li>
+        <li><span class="sol-icon">→</span><div>Ask the AI agent: <em>"Which behaviors in the first 48 hours after funding most predict placing a first trade?"</em> — get a predictive model, not a hunch</div></li>
+        <li><span class="sol-icon">→</span><div>Tag users with <strong>KYC-derived properties</strong> (risk profile, account type) and build personalized onboarding guides — stocks path vs. options path vs. futures path</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="uc-metric">
+    <div class="metric-pill"><strong>Key question answered:</strong> Why are funded accounts not trading, and what do we do about it?</div>
+    <div class="metric-pill"><strong>Requires:</strong> SDK instrumentation of your trading platform</div>
+  </div>
+</div>
+
+<!-- Use Case 2 -->
+<div class="use-case">
+  <div class="uc-header">
+    <div class="uc-number">2</div>
+    <div class="uc-title-block">
+      <h2>Trader retention & churn prediction</h2>
+      <div class="subtitle">Catch at-risk traders before they withdraw</div>
+    </div>
+    <div class="uc-tag tag-product">Product analytics</div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-col">
+      <h4>The problem you described</h4>
+      <ul class="pain-list">
+        <li><span class="pain-icon">!</span><div>Traders fund an account, make a few losing trades, and leave. <strong>You don't have an early warning system.</strong></div></li>
+        <li><span class="pain-icon">!</span><div>Active users going weeks or months without logging in — <strong>you're not catching the drift.</strong></div></li>
+        <li><span class="pain-icon">!</span><div>Your most valuable customers (right-side-of-curve options traders) are different from your mainstream users — <strong>you're not monitoring them differently.</strong></div></li>
+      </ul>
+    </div>
+    <div class="uc-col">
+      <h4>What Amplitude would do</h4>
+      <ul class="solution-list">
+        <li><span class="sol-icon">→</span><div>Build <strong>predictive churn cohorts</strong> — Amplitude identifies the behavioral signals (withdrawal initiated, declining session frequency, no feature engagement) that precede churning</div></li>
+        <li><span class="sol-icon">→</span><div><strong>Hourly automated monitoring</strong> (Enterprise) — get alerted when a cohort's activity drops anomalously, before it becomes a support ticket</div></li>
+        <li><span class="sol-icon">→</span><div>Create a <strong>"gold trader" property</strong> (holds position or placed futures trade) and monitor their behavior separately from casual users</div></li>
+        <li><span class="sol-icon">→</span><div>Trigger <strong>in-product guides or campaigns</strong> when at-risk signals fire — a nudge at the right moment, not a generic email blast three weeks too late</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="uc-metric">
+    <div class="metric-pill"><strong>Key question answered:</strong> Who is about to leave, and when?</div>
+    <div class="metric-pill"><strong>Enterprise feature:</strong> Hourly alerts + 20 predictive audiences</div>
+  </div>
+</div>
+
+<!-- Use Case 3 -->
+<div class="use-case">
+  <div class="uc-header">
+    <div class="uc-number">3</div>
+    <div class="uc-title-block">
+      <h2>Attribution — replacing RockerBox</h2>
+      <div class="subtitle">A model built for your multi-milestone conversion process</div>
+    </div>
+    <div class="uc-tag tag-marketing">Marketing analytics</div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-col">
+      <h4>The problem you described</h4>
+      <ul class="pain-list">
+        <li><span class="pain-icon">!</span><div>RockerBox is eCommerce-centric — it doesn't handle <strong>your customer/account model</strong> (one customer, multiple accounts, only last two steps generate revenue)</div></li>
+        <li><span class="pain-icon">!</span><div>The pipeline breaks regularly — <strong>engineers are debugging attribution data instead of building product.</strong></div></li>
+        <li><span class="pain-icon">!</span><div>You pull RockerBox data into Snowflake anyway — it's a <strong>fragile extra hop with reliability risk.</strong></div></li>
+        <li><span class="pain-icon">!</span><div>You're running Reddit and Meta ads but <strong>can't reliably connect impressions to funded account outcomes.</strong></div></li>
+      </ul>
+    </div>
+    <div class="uc-col">
+      <h4>What Amplitude would do</h4>
+      <ul class="solution-list">
+        <li><span class="sol-icon">→</span><div>Replace RockerBox with <strong>native multi-touch attribution built on top of the same behavioral data</strong> — no extra vendor, no extra pipeline to break</div></li>
+        <li><span class="sol-icon">→</span><div>Model your <strong>custom conversion milestones</strong> — apply, approve, fund, first trade — not just a last-click purchase</div></li>
+        <li><span class="sol-icon">→</span><div>Native <strong>Meta and Reddit Conversion API connectors</strong> — real-time event streaming to ad platforms, no manual tagging overhead</div></li>
+        <li><span class="sol-icon">→</span><div>Ask: <em>"Do users who came from our gold/silver campaign have higher futures enablement rates?"</em> — answer in seconds, not days</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="uc-metric">
+    <div class="metric-pill"><strong>Vendor replaced:</strong> RockerBox (current pain, existing budget)</div>
+    <div class="metric-pill"><strong>Key question answered:</strong> Which campaigns actually drive traders, not just accounts?</div>
+  </div>
+</div>
+
+<!-- Use Case 4 -->
+<div class="use-case">
+  <div class="uc-header">
+    <div class="uc-number">4</div>
+    <div class="uc-title-block">
+      <h2>Democratizing data access across the org</h2>
+      <div class="subtitle">Giving every team answers without compromising your data standards</div>
+    </div>
+    <div class="uc-tag tag-data">Data governance</div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-col">
+      <h4>The problem you described</h4>
+      <ul class="pain-list">
+        <li><span class="pain-icon">!</span><div>You've built clean, reliable data infrastructure — but <strong>only early adopters use it.</strong> The rest of the org still comes to your team.</div></li>
+        <li><span class="pain-icon">!</span><div>AI tools across the org are giving wrong answers because people use <strong>the wrong field names</strong> (trade revenue vs. transaction revenue)</div></li>
+        <li><span class="pain-icon">!</span><div>You want people to use data — but <strong>not in ways that compromise accuracy or data quality reputation.</strong></div></li>
+      </ul>
+    </div>
+    <div class="uc-col">
+      <h4>What Amplitude would do</h4>
+      <ul class="solution-list">
+        <li><span class="sol-icon">→</span><div>AI agent pre-loaded with <strong>your exact taxonomy and definitions</strong> — trade revenue vs. transaction revenue, customer vs. account, active trader definition — so every answer is on your terms</div></li>
+        <li><span class="sol-icon">→</span><div><strong>RBAC controls</strong> (Enterprise) — power users get full access; everyone else gets a governed chat interface that can't pull the wrong field</div></li>
+        <li><span class="sol-icon">→</span><div>Non-technical users ask questions in plain English. <strong>No dashboards. No SQL. No waiting for your team.</strong></div></li>
+        <li><span class="sol-icon">→</span><div>Audit logs for data queries — <strong>full reconcilability</strong> between Amplitude outputs and Snowflake source of truth</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="uc-metric">
+    <div class="metric-pill"><strong>Key outcome:</strong> Your team stops being the bottleneck. Data quality doesn't suffer.</div>
+    <div class="metric-pill"><strong>Enterprise feature:</strong> RBAC + data access controls</div>
+  </div>
+</div>
+
+<!-- Use Case 5 -->
+<div class="use-case">
+  <div class="uc-header">
+    <div class="uc-number">5</div>
+    <div class="uc-title-block">
+      <h2>Application funnel optimization</h2>
+      <div class="subtitle">Fix the 8-10 page application before you lose them</div>
+    </div>
+    <div class="uc-tag tag-product">Product analytics</div>
+  </div>
+  <div class="uc-body">
+    <div class="uc-col">
+      <h4>The problem you described</h4>
+      <ul class="pain-list">
+        <li><span class="pain-icon">!</span><div>Your application is 8–10 pages. <strong>You don't know exactly where people are abandoning</strong> — or why.</div></li>
+        <li><span class="pain-icon">!</span><div>The tension between <strong>too many pages vs. too many questions on one page</strong> is a real UX tradeoff you're navigating blind today.</div></li>
+        <li><span class="pain-icon">!</span><div>Users who start the application but don't complete it represent <strong>your highest-intent, lowest-friction acquisition opportunity</strong> — and you're losing them without knowing where.</div></li>
+        <li><span class="pain-icon">!</span><div>Adding a page feels like a risk. Removing questions feels like a compliance issue. <strong>Right now there's no data to arbitrate that debate.</strong></div></li>
+      </ul>
+    </div>
+    <div class="uc-col">
+      <h4>What Amplitude would do</h4>
+      <ul class="solution-list">
+        <li><span class="sol-icon">→</span><div>Build a <strong>step-by-step funnel across every page of the application</strong> — see exactly which page, which field, which moment causes drop-off</div></li>
+        <li><span class="sol-icon">→</span><div><strong>Session replay auto-linked to abandonment events</strong> — watch what users actually do on the pages where you lose them most</div></li>
+        <li><span class="sol-icon">→</span><div>A/B test <strong>page structure vs. field consolidation</strong> — get a statistically significant answer to the one-question-per-page debate instead of guessing</div></li>
+        <li><span class="sol-icon">→</span><div>Identify <strong>which applicant profiles complete at higher rates</strong> — use KYC signals to personalize the flow for low-risk vs. high-risk applicants from page one</div></li>
+      </ul>
+    </div>
+  </div>
+  <div class="uc-metric">
+    <div class="metric-pill"><strong>Key question answered:</strong> Where exactly are we losing applicants, and what do we change?</div>
+    <div class="metric-pill"><strong>Dedicated owner at tastytrade:</strong> Already exists per Nick</div>
+  </div>
+</div>
+
+<!-- Nick's own words -->
+<div class="quote-section">
+  <p class="quote-text">"The main roadblock is how do I get more people to use data — specifically, how do I get them to want to use it in the format they want and the areas they want."</p>
+  <p class="quote-attr">— tastytrade · Discovery call</p>
+</div>
+
+
+
+</body>
+</html>
