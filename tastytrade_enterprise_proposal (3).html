@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplitude Enterprise for tastytrade — Pricing Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0B1F3A;
+    --blue: #1D6FD6;
+    --blue-light: #EBF3FD;
+    --blue-mid: #B8D4F5;
+    --green: #1A8C5B;
+    --green-light: #E6F7F0;
+    --gold: #C8922A;
+    --gold-light: #FDF4E6;
+    --muted: #6B7A8D;
+    --border: #E2E8F0;
+    --bg: #F8FAFD;
+    --white: #FFFFFF;
+    --text: #0B1F3A;
+    --text-light: #4A5568;
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 48px 32px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 52px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .header h1 em { color: var(--blue); font-style: italic; }
+  .header .subtitle {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 520px;
+    margin: 0 auto 24px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .meta-item { font-size: 13px; color: var(--muted); }
+  .meta-item strong { color: var(--navy); font-weight: 500; }
+
+  /* HERO PRICE CARD */
+  .hero-card {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 40px 44px;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+  .hero-plan-name {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 10px;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: white;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .hero-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    max-width: 420px;
+    line-height: 1.6;
+  }
+  .hero-price-block {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .hero-price-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+  .hero-price-amount {
+    font-size: 52px;
+    font-weight: 600;
+    color: white;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-price-period {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+  .hero-price-monthly {
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+  }
+  .hero-price-monthly strong { color: white; }
+
+  /* MATH BREAKDOWN */
+  .math-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+  }
+  .math-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+  .math-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .math-cell {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .math-cell.highlight { background: var(--blue-light); }
+  .math-cell .label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .math-cell.highlight .label { color: var(--blue); }
+  .math-cell .value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .math-cell.highlight .value { color: var(--blue); }
+  .math-cell .sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .math-equation {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 10px 16px;
+  }
+  .math-equation strong { color: var(--navy); }
+  .caveat {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 12px;
+  }
+
+  /* WHAT'S INCLUDED */
+  .included-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .included-header {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .included-header h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--navy);
+    font-weight: 400;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .feature-group {
+    padding: 22px 28px;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-group:nth-child(even) { border-right: none; }
+  .feature-group:nth-last-child(-n+2) { border-bottom: none; }
+  .feature-group-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 12px;
+  }
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+  .check {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .feature-list li strong { color: var(--navy); font-weight: 500; }
+
+  /* WHY ENTERPRISE FOR TASTYTRADE */
+  .why-card {
+    background: var(--blue-light);
+    border: 1px solid var(--blue-mid);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+  }
+  .why-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .why-item {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.45;
+    align-items: flex-start;
+  }
+  .why-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .why-item strong { color: var(--navy); font-weight: 500; }
+
+  /* NEXT STEPS */
+  .next-steps {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 32px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .ns-text h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: white;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .ns-text p { font-size: 14px; color: rgba(255,255,255,0.6); max-width: 460px; }
+  .ns-contact { text-align: right; flex-shrink: 0; }
+  .ns-contact p { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 2px; }
+  .ns-contact strong { font-size: 15px; color: white; display: block; margin-bottom: 4px; }
+  .ns-contact a { font-size: 13px; color: #7DB8F5; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">Confidential · Prepared for tastytrade</div>
+  <h1>Amplitude <em>Enterprise</em><br>for tastytrade</h1>
+  <p class="subtitle">A proposal built around your specific environment — regulated, data-mature, and ready to scale.</p>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Prepared by:</strong> John Wallace, AE</div>
+    <div class="meta-item"><strong>MAUs:</strong> ~110,000/mo</div>
+    <div class="meta-item"><strong>Plan:</strong> Enterprise</div>
+    <div class="meta-item"><strong>Date:</strong> May 2026</div>
+  </div>
+</div>
+
+<!-- HERO PRICE -->
+<div class="hero-card">
+  <div>
+    <div class="hero-plan-name">Amplitude Enterprise Platform</div>
+    <div class="hero-title">Year 1 investment</div>
+    <div class="hero-desc">Annual contract. All Enterprise features included.</div>
+  </div>
+  <div class="hero-price-block">
+    <div class="hero-price-label">Annual contract</div>
+    <div class="hero-price-amount">$47,520</div>
+    <div class="hero-price-period">per year</div>
+
+  </div>
+</div>
+
+
+
+<!-- WHAT'S INCLUDED -->
+<div class="included-card">
+  <div class="included-header">
+    <h3>Everything included in Enterprise</h3>
+  </div>
+  <div class="features-grid">
+
+    <div class="feature-group">
+      <div class="feature-group-label">Analytics & insights</div>
+      <ul class="feature-list">
+        <li><span class="check">✓</span><div><strong>Funnels, cohorts, retention</strong> — full behavioral analytics suite</div></li>
+        <li><span class="check">✓</span><div><strong>Session replay + AI analysis</strong> — auto-linked to drop-off events</div></li>
+        <li><span class="check">✓</span><div><strong>AI chat agent</strong> — natural language queries against your data</div></li>
+        <li><span class="check">✓</span><div><strong>Portfolio / cross-app analysis</strong> — web, mobile, desktop unified</div></li>
+        <li><span class="check">✓</span><div><strong>Marketing attribution</strong> — replaces RockerBox natively</div></li>
+      </ul>
+    </div>
+
+    <div class="feature-group">
+      <div class="feature-group-label">Governance & compliance</div>
+      <ul class="feature-list">
+        <li><span class="check">✓</span><div><strong>RBAC & data access controls</strong> — critical for FINRA-regulated environment</div></li>
+        <li><span class="check">✓</span><div><strong>SCIM / SSO provisioning</strong> — enterprise user management</div></li>
+        <li><span class="check">✓</span><div><strong>Multi-environment management</strong> — staging, QA, production separated</div></li>
+        <li><span class="check">✓</span><div><strong>Central management</strong> — events, metrics, segments, cohorts governed org-wide</div></li>
+      </ul>
+    </div>
+
+    <div class="feature-group">
+      <div class="feature-group-label">Predictions & activation</div>
+      <ul class="feature-list">
+        <li><span class="check">✓</span><div><strong>Up to 20 predictive audiences</strong> — churn, high-value trader, at-risk signals</div></li>
+        <li><span class="check">✓</span><div><strong>User Profile API</strong> — sync behavioral data back to other systems</div></li>
+        <li><span class="check">✓</span><div><strong>Real-time audiences</strong> — behavior-based targeting for guides & campaigns</div></li>
+        <li><span class="check">✓</span><div><strong>Advanced personalization</strong> — user property-based onboarding paths</div></li>
+      </ul>
+    </div>
+
+    <div class="feature-group">
+      <div class="feature-group-label">Experimentation & alerting</div>
+      <ul class="feature-list">
+        <li><span class="check">✓</span><div><strong>A/B testing + feature flags</strong> — LaunchDarkly integration included</div></li>
+        <li><span class="check">✓</span><div><strong>Holdout & mutual exclusion groups</strong> — rigorous experiment design</div></li>
+        <li><span class="check">✓</span><div><strong>Hourly alerts + auto-monitoring</strong> — not daily, hourly</div></li>
+        <li><span class="check">✓</span><div><strong>1 business day support SLA</strong> + early beta access</div></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHY ENTERPRISE -->
+<div class="why-card">
+  <h3>Why Enterprise is the right fit for tastytrade</h3>
+  <div class="why-grid">
+    <div class="why-item"><div class="why-dot"></div><div><strong>You're regulated.</strong> RBAC and data access controls aren't a nice-to-have — they're required before your compliance team will sign off.</div></div>
+    <div class="why-item"><div class="why-dot"></div><div><strong>Your traders notice everything.</strong> Hourly alerts catch anomalies before they become support calls. Daily alerting isn't fast enough.</div></div>
+    <div class="why-item"><div class="why-dot"></div><div><strong>Your engineers need staging.</strong> No one on your tech team will instrument production without a QA environment to test against first.</div></div>
+    <div class="why-item"><div class="why-dot"></div><div><strong>You have enough user segments to need 20 predictions.</strong> Risk profile, account type, activity tier, product preference — Growth's 3 won't cut it.</div></div>
+    <div class="why-item"><div class="why-dot"></div><div><strong>Experiment integrity matters.</strong> Testing onboarding paths for options vs. equity traders requires holdout groups — Growth doesn't have them.</div></div>
+    <div class="why-item"><div class="why-dot"></div><div><strong>You've built something worth protecting.</strong> Your data is clean and trusted. Enterprise gives you the governance to keep it that way as you open access.</div></div>
+  </div>
+</div>
+
+<!-- NEXT STEPS -->
+<div class="next-steps">
+  <div class="ns-text">
+    <h3>Ready to finalize?</h3>
+    <p>Next step is a short scoping call to confirm event volume, finalize the MTU count, and put together a formal order form for internal review.</p>
+  </div>
+  <div class="ns-contact">
+    <p>Your Amplitude contact</p>
+    <strong>John Wallace</strong>
+    <a href="mailto:john.wallace@amplitude.com">john.wallace@amplitude.com</a>
+  </div>
+</div>
+
+</body>
+</html>
