@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplitude for tastytrade — What We'd Help You Build</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e8e4dc;
+    --text: #1a1714;
+    --muted: #7a7570;
+    --accent: #1B3A6B;
+    --accent-light: #e8edf5;
+    --warn-bg: #fef3ec;
+    --warn-border: #f5c49a;
+    --warn-icon: #c2621a;
+    --act-bg: #edf5f0;
+    --act-border: #a8d4b8;
+    --act-icon: #1a5c3a;
+    --new: #7c3aed;
+    --new-bg: #f3eeff;
+    --new-border: rgba(124,58,237,0.2);
+    --radius: 12px;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+  .wrapper { max-width: 740px; margin: 0 auto; }
+
+  .page-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+  .page-title em { font-style: italic; color: var(--accent); }
+  .page-sub {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+
+  .use-case {
+    margin-bottom: 3rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .uc-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .uc-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    min-width: 20px;
+    padding-top: 6px;
+  }
+
+  .uc-meta {}
+
+  .uc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .uc-label.new-label { color: var(--new); }
+
+  .uc-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .uc-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .new-badge {
+    display: inline-block;
+    background: var(--new-bg);
+    color: var(--new);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--new-border);
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .card {
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+
+  .card.problem {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+  }
+
+  .card.solution {
+    background: var(--act-bg);
+    border: 1px solid var(--act-border);
+  }
+
+  .card.solution.new-solution {
+    background: var(--new-bg);
+    border: 1px solid var(--new-border);
+  }
+
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .card.problem .card-label { color: var(--warn-icon); }
+  .card.solution .card-label { color: var(--act-icon); }
+  .card.solution.new-solution .card-label { color: var(--new); }
+
+  .bullet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bullet {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .bullet-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 0.85rem;
+  }
+
+  .card.problem .bullet-icon { color: var(--warn-icon); }
+  .card.solution .bullet-icon { color: var(--act-icon); }
+  .card.solution.new-solution .bullet-icon { color: var(--new); }
+
+  .uc-footer {
+    margin-top: 1rem;
+    padding: 0.875rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .uc-footer-item {
+    font-size: 0.8rem;
+  }
+
+  .uc-footer-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .uc-footer-value {
+    color: var(--text);
+    font-size: 0.825rem;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .quote-block {
+    margin-top: 3rem;
+    padding: 1.5rem 2rem;
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .quote-block cite {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-style: normal;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <h1 class="page-title">Amplitude as <em>tastytrade's</em><br>product operating system</h1>
+  <p class="page-sub">Six use cases. Built around what you told us.</p>
+
+  <!-- 1 -->
+  <div class="use-case">
+    <div class="uc-header">
+      <div class="uc-num">1</div>
+      <div class="uc-meta">
+        <div class="uc-label">Product analytics</div>
+        <div class="uc-title">Funded account → first trade conversion</div>
+        <div class="uc-sub">Your most important and most broken funnel</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card problem">
+        <div class="card-label">The problem you described</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">!</span><span>Users apply, get approved, fund an account — then disappear without trading. <strong>You've done all the hard work and they still leave.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>Your funnel has multiple milestones but <strong>only the last two generate revenue.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>Good KYC data on risk profile but <strong>haven't been able to use it to personalize the onboarding path.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>Left-side-of-curve customers are landing and churning because <strong>the product wasn't built for them.</strong></span></div>
+        </div>
+      </div>
+      <div class="card solution">
+        <div class="card-label">What Amplitude would do</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">→</span><span>Build a <strong>multi-step behavioral funnel</strong> across the full application → approval → funding → first trade path</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span><strong>Session replay auto-linked to drop-off events</strong> — watch exactly what funded-but-never-traded users did last</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Ask the AI agent: <em>"Which behaviors in the first 48 hours after funding most predict placing a first trade?"</em></span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Tag users with <strong>KYC-derived properties</strong> and build personalized onboarding guides per trader type</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-footer">
+      <div class="uc-footer-item"><div class="uc-footer-label">Key question answered</div><div class="uc-footer-value">Why are funded accounts not trading, and what do we do about it?</div></div>
+      <div class="uc-footer-item"><div class="uc-footer-label">Requires</div><div class="uc-footer-value">SDK instrumentation of trading platform</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 2 -->
+  <div class="use-case">
+    <div class="uc-header">
+      <div class="uc-num">2</div>
+      <div class="uc-meta">
+        <div class="uc-label">Product analytics</div>
+        <div class="uc-title">Trader retention &amp; churn prediction</div>
+        <div class="uc-sub">Catch at-risk traders before they withdraw</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card problem">
+        <div class="card-label">The problem you described</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">!</span><span>Traders fund, make a few losing trades, and leave. <strong>No early warning system.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>Active users going weeks without logging in — <strong>you're not catching the drift.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>Your most valuable customers (options traders) are different — <strong>you're not monitoring them differently.</strong></span></div>
+        </div>
+      </div>
+      <div class="card solution">
+        <div class="card-label">What Amplitude would do</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">→</span><span>Build <strong>predictive churn cohorts</strong> — behavioral signals that precede churning surfaced automatically</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span><strong>Hourly automated monitoring</strong> — alerts when a cohort's activity drops anomalously, before it becomes a support ticket</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Create a <strong>"gold trader" property</strong> and monitor their behavior separately from casual users</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Trigger <strong>in-product guides</strong> when at-risk signals fire — a nudge at the right moment, not a generic email</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-footer">
+      <div class="uc-footer-item"><div class="uc-footer-label">Key question answered</div><div class="uc-footer-value">Who is about to leave, and when?</div></div>
+      <div class="uc-footer-item"><div class="uc-footer-label">Enterprise feature</div><div class="uc-footer-value">Hourly alerts + 20 predictive audiences</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 3 -->
+  <div class="use-case">
+    <div class="uc-header">
+      <div class="uc-num">3</div>
+      <div class="uc-meta">
+        <div class="uc-label">Marketing analytics</div>
+        <div class="uc-title">Attribution — replacing RockerBox</div>
+        <div class="uc-sub">A model built for your multi-milestone conversion process</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card problem">
+        <div class="card-label">The problem you described</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">!</span><span>RockerBox is eCommerce-centric — doesn't handle <strong>your customer/account model.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>The pipeline breaks regularly — <strong>engineers debugging attribution instead of building product.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>You pull RockerBox into Snowflake anyway — <strong>fragile extra hop with reliability risk.</strong></span></div>
+        </div>
+      </div>
+      <div class="card solution">
+        <div class="card-label">What Amplitude would do</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">→</span><span>Replace RockerBox with <strong>native multi-touch attribution</strong> built on the same behavioral data — no extra vendor</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Model your <strong>custom conversion milestones</strong> — apply, approve, fund, first trade</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Native <strong>Meta and Reddit Conversion API connectors</strong> — real-time event streaming to ad platforms</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-footer">
+      <div class="uc-footer-item"><div class="uc-footer-label">Vendor replaced</div><div class="uc-footer-value">RockerBox (existing budget)</div></div>
+      <div class="uc-footer-item"><div class="uc-footer-label">Key question answered</div><div class="uc-footer-value">Which campaigns actually drive traders, not just accounts?</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 4 -->
+  <div class="use-case">
+    <div class="uc-header">
+      <div class="uc-num">4</div>
+      <div class="uc-meta">
+        <div class="uc-label">Data governance</div>
+        <div class="uc-title">Democratizing data access across the org</div>
+        <div class="uc-sub">Giving every team answers without compromising your data standards</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card problem">
+        <div class="card-label">The problem you described</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">!</span><span>Clean, reliable data infrastructure — but <strong>only early adopters use it.</strong> The rest still comes to your team.</span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>AI tools giving wrong answers because people use <strong>the wrong field names</strong> (trade revenue vs. transaction revenue)</span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>You want people to use data — but <strong>not in ways that compromise accuracy or reputation.</strong></span></div>
+        </div>
+      </div>
+      <div class="card solution">
+        <div class="card-label">What Amplitude would do</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">→</span><span>AI agent pre-loaded with <strong>your exact taxonomy</strong> — trade revenue vs. transaction revenue, customer vs. account</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span><strong>RBAC controls</strong> — power users get full access; everyone else gets a governed chat interface</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Non-technical users ask questions in plain English. <strong>No dashboards. No SQL. No waiting for your team.</strong></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-footer">
+      <div class="uc-footer-item"><div class="uc-footer-label">Key outcome</div><div class="uc-footer-value">Your team stops being the bottleneck. Data quality doesn't suffer.</div></div>
+      <div class="uc-footer-item"><div class="uc-footer-label">Enterprise feature</div><div class="uc-footer-value">RBAC + data access controls</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 5 -->
+  <div class="use-case">
+    <div class="uc-header">
+      <div class="uc-num">5</div>
+      <div class="uc-meta">
+        <div class="uc-label">Product analytics</div>
+        <div class="uc-title">Application funnel optimization</div>
+        <div class="uc-sub">Fix the 8–10 page application before you lose them</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card problem">
+        <div class="card-label">The problem you described</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">!</span><span>8–10 page application. <strong>You don't know exactly where people abandon</strong> — or why.</span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>The tension between too many pages vs. too many questions <strong>is a real UX tradeoff you're navigating blind today.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>Adding a page feels like a risk. Removing questions feels like a compliance issue. <strong>No data to arbitrate that debate.</strong></span></div>
+        </div>
+      </div>
+      <div class="card solution">
+        <div class="card-label">What Amplitude would do</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">→</span><span>Build a <strong>step-by-step funnel across every page</strong> — see exactly which page, which field, which moment causes drop-off</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span><strong>Session replay auto-linked to abandonment events</strong> — watch what users do on the pages where you lose them most</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>A/B test <strong>page structure vs. field consolidation</strong> — get a statistically significant answer instead of guessing</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-footer">
+      <div class="uc-footer-item"><div class="uc-footer-label">Key question answered</div><div class="uc-footer-value">Where exactly are we losing applicants, and what do we change?</div></div>
+      <div class="uc-footer-item"><div class="uc-footer-label">Dedicated owner at tastytrade</div><div class="uc-footer-value">Already exists per Nick</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 6 — NEW -->
+  <div class="use-case">
+    <div class="uc-header">
+      <div class="uc-num">6</div>
+      <div class="uc-meta">
+        <div class="uc-label new-label">Web experimentation <span class="new-badge">New</span></div>
+        <div class="uc-title">Web experimentation — replacing Optimizely</div>
+        <div class="uc-sub">Test and optimize tastytrade.com without a separate vendor</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card problem">
+        <div class="card-label">The challenge</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">!</span><span>You're actively evaluating Optimizely for web experimentation — <strong>a standalone tool that doesn't connect to your product or behavioral data.</strong></span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>With a separate experimentation vendor, <strong>winning variant → downstream impact on funded accounts is invisible.</strong> You'd know a button color won, not whether it drove first trades.</span></div>
+          <div class="bullet"><span class="bullet-icon">!</span><span>Optimizely requires its own instrumentation layer on top of everything else — <strong>more vendors, more maintenance, more points of failure.</strong></span></div>
+        </div>
+      </div>
+      <div class="card solution new-solution">
+        <div class="card-label">What Amplitude Web Experiment does</div>
+        <div class="bullet-list">
+          <div class="bullet"><span class="bullet-icon">→</span><span><strong>Visual editor for no-code A/B testing</strong> on tastytrade.com — landing pages, onboarding flows, CTAs — no engineering required for each test</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Target experiments using <strong>behavioral cohorts already in Amplitude</strong> — e.g. run a variant only for funded-but-never-traded users</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span>Experiment results tied directly to <strong>your most important downstream metrics</strong> — first trade, account funding, retention — not just click-through</span></div>
+          <div class="bullet"><span class="bullet-icon">→</span><span><strong>No separate vendor.</strong> One instrumentation layer, one platform, one contract.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-footer" style="background: var(--new-bg); border-color: var(--new-border);">
+      <div class="uc-footer-item"><div class="uc-footer-label">Vendor replaced</div><div class="uc-footer-value">Optimizely (under active evaluation)</div></div>
+      <div class="uc-footer-item"><div class="uc-footer-label">Key advantage</div><div class="uc-footer-value">Experiments connected to funded account conversion, not just surface metrics</div></div>
+      <div class="uc-footer-item"><div class="uc-footer-label">Pricing</div><div class="uc-footer-value">Included in updated proposal (+30%)</div></div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    "The main roadblock is how do I get more people to use data — specifically, how do I get them to want to use it in the format they want and the areas they want."
+    <cite>— tastytrade · Discovery call</cite>
+  </div>
+
+</div>
+</body>
+</html>
