@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplitude Enterprise for tastytrade — Pricing Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e8e4dc;
+    --text: #1a1714;
+    --muted: #7a7570;
+    --accent: #1B3A6B;
+    --accent-light: #e8edf5;
+    --green: #1a5c3a;
+    --green-bg: #edf5f0;
+    --new: #7c3aed;
+    --new-bg: #f3eeff;
+    --radius: 12px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.6rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    background: var(--surface);
+  }
+
+  .meta-item {
+    padding: 0.875rem 1rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .meta-item:last-child { border-right: none; }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* Pricing card */
+  .pricing-card {
+    background: var(--accent);
+    border-radius: var(--radius);
+    padding: 2rem 2.25rem;
+    margin-bottom: 2rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+
+  .pricing-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.5rem;
+  }
+
+  .pricing-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .pricing-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+  }
+
+  .pricing-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.75);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .pricing-line.new-line {
+    color: #c4b5fd;
+  }
+
+  .new-badge {
+    background: rgba(196,181,253,0.2);
+    color: #c4b5fd;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 8px;
+  }
+
+  .pricing-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 4px;
+  }
+
+  .total-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .total-amount {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: white;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .total-period {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    margin-left: 6px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .competitive-note {
+    margin-top: 1rem;
+    background: rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+  }
+
+  .competitive-note strong {
+    color: #c4b5fd;
+    font-weight: 500;
+  }
+
+  /* Feature sections */
+  .section {
+    margin-bottom: 1.75rem;
+  }
+
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .feature-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+
+  .feature-item:last-child { border-bottom: none; }
+
+  .feature-item.highlight {
+    background: var(--new-bg);
+  }
+
+  .check {
+    color: var(--green);
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 0.9rem;
+  }
+
+  .feature-item.highlight .check {
+    color: var(--new);
+  }
+
+  .feature-text strong {
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .feature-text {
+    color: var(--muted);
+  }
+
+  .new-tag {
+    display: inline-block;
+    background: var(--new-bg);
+    color: var(--new);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+    border: 1px solid rgba(124,58,237,0.2);
+  }
+
+  /* Why section */
+  .why-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .why-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .why-card.new-why {
+    background: var(--new-bg);
+    border-color: rgba(124,58,237,0.2);
+  }
+
+  .why-card strong {
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .why-card.new-why strong {
+    color: var(--new);
+  }
+
+  .why-card p {
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* CTA */
+  .cta {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem 2rem;
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .cta h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+
+  .cta p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-contact {
+    font-size: 0.875rem;
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  .cta-contact strong { color: var(--text); font-weight: 500; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="eyebrow">Confidential · Prepared for tastytrade</div>
+
+  <h1>Amplitude <em>Enterprise</em><br>for tastytrade</h1>
+  <p class="tagline">A proposal built around your specific environment — regulated, data-mature, and ready to scale.</p>
+
+  <div class="meta-grid">
+    <div class="meta-item">
+      <div class="meta-label">Prepared by</div>
+      <div class="meta-value">John Wallace, AE</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">MAUs</div>
+      <div class="meta-value">~110,000/mo</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Plan</div>
+      <div class="meta-value">Enterprise</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Date</div>
+      <div class="meta-value">June 2026</div>
+    </div>
+  </div>
+
+  <!-- Pricing Card -->
+  <div class="pricing-card">
+    <div class="pricing-label">Year 1 Investment</div>
+    <div class="pricing-name">Amplitude Enterprise Platform + Web Experiment</div>
+
+    <div class="pricing-breakdown">
+      <div class="pricing-line">
+        <span>Amplitude Enterprise Platform</span>
+        <span>$47,520</span>
+      </div>
+      <div class="pricing-line new-line">
+        <span>Web Experimentation <span class="new-badge">New</span></span>
+        <span>$14,256</span>
+      </div>
+    </div>
+
+    <div class="pricing-total">
+      <div>
+        <div class="total-label">Annual contract</div>
+        <div style="font-size:0.8rem; color:rgba(255,255,255,0.4); margin-top:2px;">All Enterprise features included</div>
+      </div>
+      <div>
+        <span class="total-amount">$61,776</span>
+        <span class="total-period">/ year</span>
+      </div>
+    </div>
+
+    <div class="competitive-note">
+      <strong>vs. Optimizely:</strong> Web Experiment natively connected to all your behavioral data, session replay, and predictive audiences — no separate vendor, no data syncing overhead, no duplicate instrumentation.
+    </div>
+  </div>
+
+  <!-- Analytics & Insights -->
+  <div class="section">
+    <div class="section-title">Analytics &amp; insights</div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Funnels, cohorts, retention</strong> — full behavioral analytics suite</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Session replay + AI analysis</strong> — auto-linked to drop-off events</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>AI chat agent</strong> — natural language queries against your data</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Portfolio / cross-app analysis</strong> — web, mobile, desktop unified</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Marketing attribution</strong> — replaces RockerBox natively</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Governance -->
+  <div class="section">
+    <div class="section-title">Governance &amp; compliance</div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>RBAC &amp; data access controls</strong> — critical for FINRA-regulated environment</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>SCIM / SSO provisioning</strong> — enterprise user management</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Multi-environment management</strong> — staging, QA, production separated</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Central management</strong> — events, metrics, segments, cohorts governed org-wide</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Predictions -->
+  <div class="section">
+    <div class="section-title">Predictions &amp; activation</div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Up to 20 predictive audiences</strong> — churn, high-value trader, at-risk signals</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>User Profile API</strong> — sync behavioral data back to other systems</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Real-time audiences</strong> — behavior-based targeting for guides &amp; campaigns</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Advanced personalization</strong> — user property-based onboarding paths</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Experimentation -->
+  <div class="section">
+    <div class="section-title">Experimentation &amp; alerting</div>
+    <div class="feature-list">
+      <div class="feature-item highlight">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Web Experimentation</strong> <span class="new-tag">New</span> — run A/B tests on tastytrade.com without engineering. Target experiments to specific trader cohorts using behavioral data already in Amplitude.</span>
+      </div>
+      <div class="feature-item highlight">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Experiment results connected to product analytics</strong> <span class="new-tag">New</span> — see the downstream impact of a winning variant on funded account conversion, not just click-through rate.</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>A/B testing + feature flags</strong> — LaunchDarkly integration included</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Holdout &amp; mutual exclusion groups</strong> — rigorous experiment design</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>Hourly alerts + auto-monitoring</strong> — not daily, hourly</span>
+      </div>
+      <div class="feature-item">
+        <span class="check">✓</span>
+        <span class="feature-text"><strong>1 business day support SLA</strong> + early beta access</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Why section -->
+  <div class="section">
+    <div class="section-title">Why this is the right fit for tastytrade</div>
+    <div class="why-grid">
+      <div class="why-card new-why">
+        <strong>You're already looking at Optimizely for web experimentation.</strong>
+        <p>Amplitude Web Experiment gives you the same capability — visual editor, no-code variant testing, statistical significance — but experiments run against the same behavioral data already in your platform. No duplicate instrumentation, no extra vendor to manage, and your winning variants are tied directly to funded account conversion, not just surface-level metrics.</p>
+      </div>
+      <div class="why-card">
+        <strong>You're regulated.</strong>
+        <p>RBAC and data access controls aren't a nice-to-have — they're required before your compliance team will sign off.</p>
+      </div>
+      <div class="why-card">
+        <strong>Your traders notice everything.</strong>
+        <p>Hourly alerts catch anomalies before they become support calls. Daily alerting isn't fast enough.</p>
+      </div>
+      <div class="why-card">
+        <strong>Your engineers need staging.</strong>
+        <p>No one on your tech team will instrument production without a QA environment to test against first.</p>
+      </div>
+      <div class="why-card">
+        <strong>You have enough user segments to need 20 predictions.</strong>
+        <p>Risk profile, account type, activity tier, product preference — Growth's 3 won't cut it.</p>
+      </div>
+      <div class="why-card">
+        <strong>Experiment integrity matters.</strong>
+        <p>Testing onboarding paths for options vs. equity traders requires holdout groups — Growth doesn't have them.</p>
+      </div>
+      <div class="why-card">
+        <strong>You've built something worth protecting.</strong>
+        <p>Your data is clean and trusted. Enterprise gives you the governance to keep it that way as you open access.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>Ready to finalize?</h3>
+    <p>Next step is a short scoping call to confirm event volume, finalize the MTU count, and put together a formal order form for internal review.</p>
+    <div class="cta-contact">
+      Your Amplitude contact<br>
+      <strong>John Wallace</strong> · john.wallace@amplitude.com
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
