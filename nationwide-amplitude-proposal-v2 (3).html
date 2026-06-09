@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplitude — Nationwide Pricing Proposal v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --ink: #0f0f0f;
+    --ink-soft: #3a3a3a;
+    --ink-muted: #6b6b6b;
+    --rule: #e0e0e0;
+    --rule-light: #f0f0f0;
+    --bg: #fafaf8;
+    --white: #ffffff;
+    --amp-blue: #1a4fff;
+    --amp-blue-light: #e8eeff;
+    --recommended: #0d3d00;
+    --recommended-bg: #f0fae8;
+    --recommended-accent: #3ab100;
+    --strike: #cc2200;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 860px; margin: 0 auto; padding: 80px 60px; }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 48px;
+    border-bottom: 1.5px solid var(--ink);
+    margin-bottom: 56px;
+  }
+
+  .logo-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .header-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  .header-right { text-align: right; }
+
+  .client-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .header-meta { font-size: 11px; color: var(--ink-muted); margin-top: 6px; letter-spacing: 0.04em; }
+
+  .meta-row {
+    display: flex;
+    gap: 40px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+
+  .meta-item strong {
+    color: var(--ink);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .assumptions {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 28px 32px;
+    margin-bottom: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .assumption-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+
+  .assumption-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+  }
+
+  .assumption-sub { font-size: 11px; color: var(--ink-muted); margin-top: 2px; }
+
+  .section-heading {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-heading::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .options { display: flex; flex-direction: column; gap: 24px; margin-bottom: 56px; }
+
+  .option-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .option-card.recommended { border-color: var(--recommended-accent); border-width: 1.5px; }
+
+  .recommended-badge {
+    position: absolute;
+    top: 0; right: 0;
+    background: var(--recommended-accent);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-bottom-left-radius: 2px;
+  }
+
+  .option-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .option-number {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+
+  .option-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+  }
+
+  .option-subtitle { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
+
+  .option-price-summary { text-align: right; }
+
+  .price-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+
+  .price-was {
+    font-size: 14px;
+    color: var(--ink-muted);
+    text-decoration: line-through;
+    text-decoration-color: var(--strike);
+    margin-bottom: 2px;
+  }
+
+  .price-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .price-period { font-size: 12px; color: var(--ink-muted); font-weight: 300; }
+
+  .price-tcv { font-size: 11px; color: var(--ink-muted); margin-top: 6px; }
+  .price-tcv strong { color: var(--ink); font-weight: 600; }
+
+  .price-savings {
+    display: inline-block;
+    margin-top: 6px;
+    background: #fff3e0;
+    color: #b45000;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .option-body { padding: 24px 32px; }
+
+  .line-items { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+
+  .line-items tr { border-bottom: 1px solid var(--rule-light); }
+  .line-items tr:last-child { border-bottom: none; }
+  .line-items td { padding: 12px 0; vertical-align: top; }
+
+  .line-name { font-weight: 500; font-size: 13px; width: 45%; }
+  .line-detail { font-size: 12px; color: var(--ink-muted); width: 35%; }
+  .line-price { font-size: 13px; font-weight: 500; text-align: right; white-space: nowrap; }
+  .line-price-sub { font-size: 11px; color: var(--ink-muted); font-weight: 400; display: block; }
+  .line-type {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .totals-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  .totals-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .totals-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+  }
+
+  /* TECH HIGHLIGHTS */
+  .tech-highlights {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .tech-highlights-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 12px;
+  }
+
+  .tech-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .tech-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    background: var(--rule-light);
+    padding: 10px 14px;
+    border-radius: 4px;
+    line-height: 1.5;
+  }
+
+  .option-card.recommended .tech-list li {
+    background: var(--recommended-bg);
+  }
+
+  .tech-check {
+    color: var(--recommended-accent);
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* PPL SECTION */
+  .ppl-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .ppl-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+
+  .ppl-intro {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .ppl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .ppl-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--amp-blue);
+    background: var(--amp-blue-light);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  /* NOTES */
+  .notes { margin-bottom: 56px; }
+
+  .note-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule-light);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .note-item:first-child { border-top: 1px solid var(--rule-light); }
+  .note-dash { color: var(--ink-muted); flex-shrink: 0; font-weight: 300; }
+  .note-item strong { font-weight: 600; color: var(--ink); }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 32px;
+    border-top: 1.5px solid var(--ink);
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  .footer-left { line-height: 1.8; }
+  .footer-right { text-align: right; line-height: 1.8; }
+  .footer strong { color: var(--ink); font-weight: 600; }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-mark">Amplitude</div>
+      <div class="header-label">Pricing Proposal · June 2026 · Confidential</div>
+    </div>
+    <div class="header-right">
+      <div class="client-name">Nationwide Insurance</div>
+      <div class="header-meta">Prepared for Timothy Detling &amp; David Faulkner</div>
+    </div>
+  </div>
+
+  <!-- META ROW -->
+  <div class="meta-row" style="margin-bottom: 48px;">
+    <div class="meta-item">
+      <strong>Prepared by</strong>
+      John Wallace &amp; Michael Pakter, Amplitude
+    </div>
+    <div class="meta-item">
+      <strong>Submitted</strong>
+      June 2026
+    </div>
+    <div class="meta-item">
+      <strong>Version</strong>
+      v2 — Updated Commercial Options
+    </div>
+  </div>
+
+  <!-- ASSUMPTIONS -->
+  <div class="assumptions">
+    <div class="assumption-item">
+      <div class="assumption-label">Session Volume</div>
+      <div class="assumption-value">250M</div>
+      <div class="assumption-sub">Annual sessions (RFP scope)</div>
+    </div>
+    <div class="assumption-item">
+      <div class="assumption-label">Contract Term</div>
+      <div class="assumption-value">2 Yrs</div>
+      <div class="assumption-sub">Annual billing, standard terms</div>
+    </div>
+    <div class="assumption-item">
+      <div class="assumption-label">Coverage</div>
+      <div class="assumption-value">Web + Mobile</div>
+      <div class="assumption-sub">Single unified SKU</div>
+    </div>
+  </div>
+
+  <!-- OPTIONS -->
+  <div class="section-heading">Commercial Options</div>
+  <div class="options">
+
+    <!-- OPTION 01 -->
+    <div class="option-card">
+      <div class="option-header">
+        <div>
+          <div class="option-number">Option 01</div>
+          <div class="option-title">Session Replay</div>
+          <div class="option-subtitle">RFP Scope — Standalone deployment, no changes to existing analytics stack required</div>
+        </div>
+        <div class="option-price-summary">
+          <div class="price-label">Annual Subscription</div>
+          <div class="price-main">$215,000 <span class="price-period">/ yr</span></div>
+          <div class="price-tcv">2-Year TCV: <strong>$471,000</strong></div>
+        </div>
+      </div>
+      <div class="option-body">
+        <table class="line-items">
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Subscription</span>
+              Amplitude Session Replay
+            </td>
+            <td class="line-detail">250M annual sessions · Web + Mobile</td>
+            <td class="line-price">$215,000 <span class="line-price-sub">per year</span></td>
+          </tr>
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Professional Services</span>
+              Implementation
+            </td>
+            <td class="line-detail">Onboarding, instrumentation guidance, and go-live support</td>
+            <td class="line-price">$41,000 <span class="line-price-sub">one-time</span></td>
+          </tr>
+        </table>
+        <div class="totals-row">
+          <div class="totals-label">Year 1 Total</div>
+          <div class="totals-amount">$256,000</div>
+        </div>
+
+        <div class="tech-highlights">
+          <div class="tech-highlights-label">Technical Highlights</div>
+          <ul class="tech-list">
+            <li><span class="tech-check">✓</span>No disruption to existing analytics stack — GA and other tools remain unchanged</li>
+            <li><span class="tech-check">✓</span>Fast time to value; minimal instrumentation scope</li>
+            <li><span class="tech-check">✓</span>Works with GA, Segment, RudderStack, and other third-party providers</li>
+            <li><span class="tech-check">✓</span>Full privacy controls, masking, and sampling rate configuration</li>
+            <li><span class="tech-check">✓</span>Web heatmaps supported — rage clicks, dead clicks, and error detection also available</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 02 — RECOMMENDED -->
+    <div class="option-card recommended">
+      <div class="recommended-badge">✦ Recommended</div>
+      <div class="option-header">
+        <div>
+          <div class="option-number">Option 02</div>
+          <div class="option-title">Session Replay + Analytics</div>
+          <div class="option-subtitle">Full RFP scope — everything Nationwide asked about, fully addressed in one platform</div>
+        </div>
+        <div class="option-price-summary">
+          <div class="price-label">Annual Subscription</div>
+          <div class="price-was">$341,000 / yr</div>
+          <div class="price-main">$236,000 <span class="price-period">/ yr</span></div>
+          <div class="price-tcv">2-Year TCV: <strong>$517,000</strong></div>
+          <div class="price-savings">Saving $105,000 / yr</div>
+        </div>
+      </div>
+      <div class="option-body">
+        <table class="line-items">
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Subscription</span>
+              Amplitude Session Replay
+            </td>
+            <td class="line-detail">250M annual sessions · Web + Mobile</td>
+            <td class="line-price">included</td>
+          </tr>
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Subscription</span>
+              Amplitude Analytics
+            </td>
+            <td class="line-detail">1B annual events · Enterprise tier</td>
+            <td class="line-price">included</td>
+          </tr>
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Professional Services</span>
+              Implementation
+            </td>
+            <td class="line-detail">Full platform onboarding, analytics instrumentation, and go-live support</td>
+            <td class="line-price">$45,000 <span class="line-price-sub">one-time</span></td>
+          </tr>
+        </table>
+        <div class="totals-row">
+          <div class="totals-label">Year 1 Total</div>
+          <div class="totals-amount">$281,000</div>
+        </div>
+
+        <div class="tech-highlights">
+          <div class="tech-highlights-label">Technical Highlights</div>
+          <ul class="tech-list">
+            <li><span class="tech-check">✓</span>Unlocks funnel → replay navigation with even basic event instrumentation</li>
+            <li><span class="tech-check">✓</span>User ID lookup and identity stitching fully available — Amplitude handles this automatically</li>
+            <li><span class="tech-check">✓</span>Pre-login → post-login session stitching is automatic on setUserId()</li>
+            <li><span class="tech-check">✓</span>Cross-device identity resolution enabled out of the box</li>
+            <li><span class="tech-check">✓</span>Event timeline synchronized with replay playback</li>
+            <li><span class="tech-check">✓</span>Cohort and segment-filtered replay search available</li>
+            <li><span class="tech-check">✓</span>Targeted Replay Capture available — record only sessions matching specific conditions</li>
+          </ul>
+        </div>
+
+        <div class="ppl-section">
+          <div class="ppl-label">Also Included — Starter Access</div>
+          <div class="ppl-intro">This purchase includes starter quantities of additional Amplitude products at no added cost, giving Nationwide the ability to explore the full platform from day one.</div>
+          <div class="ppl-tags">
+            <span class="ppl-tag">AI Visibility</span>
+            <span class="ppl-tag">Experimentation — Web &amp; Feature Flags</span>
+            <span class="ppl-tag">Guides &amp; Surveys</span>
+            <span class="ppl-tag">Activation</span>
+            <span class="ppl-tag">Unlimited Daily &amp; Hourly Monitoring</span>
+            <span class="ppl-tag">Automatic Monitoring &amp; Alerting</span>
+            <span class="ppl-tag">Webhooks</span>
+            <span class="ppl-tag">Unlimited Projects</span>
+            <span class="ppl-tag">Data Access Controls</span>
+            <span class="ppl-tag">Advanced User Management (RBAC)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 03 -->
+    <div class="option-card">
+      <div class="option-header">
+        <div>
+          <div class="option-number">Option 03</div>
+          <div class="option-title">Full Amplitude Platform</div>
+          <div class="option-subtitle">Complete digital analytics — full behavioral data coverage across Nationwide's entire digital footprint</div>
+        </div>
+        <div class="option-price-summary">
+          <div class="price-label">Annual Subscription</div>
+          <div class="price-was">$480,000 / yr</div>
+          <div class="price-main">$321,000 <span class="price-period">/ yr</span></div>
+          <div class="price-tcv">2-Year TCV: <strong>$692,850</strong></div>
+          <div class="price-savings">Saving $159,000 / yr</div>
+        </div>
+      </div>
+      <div class="option-body">
+        <table class="line-items">
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Subscription</span>
+              Amplitude Session Replay
+            </td>
+            <td class="line-detail">250M annual sessions · Web + Mobile</td>
+            <td class="line-price">included</td>
+          </tr>
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Subscription</span>
+              Amplitude Analytics
+            </td>
+            <td class="line-detail">3.36B annual events · full digital footprint · subject to volume confirmation</td>
+            <td class="line-price">included</td>
+          </tr>
+          <tr>
+            <td class="line-name">
+              <span class="line-type">Professional Services</span>
+              Implementation
+            </td>
+            <td class="line-detail">Full platform onboarding, analytics instrumentation, and go-live support</td>
+            <td class="line-price">$50,850 <span class="line-price-sub">one-time</span></td>
+          </tr>
+        </table>
+        <div class="totals-row">
+          <div class="totals-label">Year 1 Total</div>
+          <div class="totals-amount">$371,850</div>
+        </div>
+
+        <div class="tech-highlights">
+          <div class="tech-highlights-label">Technical Highlights</div>
+          <ul class="tech-list">
+            <li><span class="tech-check">✓</span>Amplitude platform has full visibility into behavioral data for analysis and activation</li>
+            <li><span class="tech-check">✓</span>Full Session Replay integration with every chart, funnel, cohort, and journey</li>
+            <li><span class="tech-check">✓</span>Amplitude auto-manages session IDs, device IDs, and user identity — zero custom engineering</li>
+            <li><span class="tech-check">✓</span>Full pre-login → post-login identity stitching automatic on setUserId()</li>
+            <li><span class="tech-check">✓</span>Cross-device identity resolution — same user on mobile and desktop unified</li>
+            <li><span class="tech-check">✓</span>Experimentation &amp; feature flags — run A/B tests and watch session replays per variant</li>
+            <li><span class="tech-check">✓</span>Guides &amp; Surveys — in-product nudges, onboarding flows, and feedback collection</li>
+            <li><span class="tech-check">✓</span>AI-powered session summaries across the full qualitative and quantitative data set</li>
+            <li><span class="tech-check">✓</span>Targeted Replay Capture — record only sessions matching specific conditions</li>
+            <li><span class="tech-check">✓</span>Single SDK, single privacy model, single governance layer across all products</li>
+          </ul>
+        </div>
+
+        <div class="ppl-section">
+          <div class="ppl-label">Also Included — Starter Access</div>
+          <div class="ppl-intro">This purchase includes starter quantities of additional Amplitude products at no added cost, giving Nationwide the ability to explore the full platform from day one.</div>
+          <div class="ppl-tags">
+            <span class="ppl-tag">AI Visibility</span>
+            <span class="ppl-tag">Experimentation — Web &amp; Feature Flags</span>
+            <span class="ppl-tag">Guides &amp; Surveys</span>
+            <span class="ppl-tag">Activation</span>
+            <span class="ppl-tag">Unlimited Daily &amp; Hourly Monitoring</span>
+            <span class="ppl-tag">Automatic Monitoring &amp; Alerting</span>
+            <span class="ppl-tag">Webhooks</span>
+            <span class="ppl-tag">Unlimited Projects</span>
+            <span class="ppl-tag">Data Access Controls</span>
+            <span class="ppl-tag">Advanced User Management (RBAC)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NOTES -->
+  <div class="section-heading">Notes &amp; Assumptions</div>
+  <div class="notes">
+    <div class="note-item">
+      <span class="note-dash">—</span>
+      <span><strong>Session Replay can be deployed standalone</strong> alongside Nationwide's existing analytics environment via Amplitude's Standalone SDK — no migration of existing infrastructure required.</span>
+    </div>
+    <div class="note-item">
+      <span class="note-dash">—</span>
+      <span><strong>Option 02 is the recommended path</strong> to fully address all capabilities outlined in Nationwide's RFP, including behavioral analytics, funnel analysis, and session replay in a unified platform.</span>
+    </div>
+    <div class="note-item">
+      <span class="note-dash">—</span>
+      <span><strong>Analytics event volume in Options 02 and 03</strong> is subject to confirmation. Option 02 is based on 1B annual events; Option 03 is estimated from Nationwide's digital footprint. Final pricing confirmed upon receipt of actual figures.</span>
+    </div>
+    <div class="note-item">
+      <span class="note-dash">—</span>
+      <span>All figures USD. Annual billing on a 2-year term. Subscription and Professional Services invoiced separately.</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      <strong>John Wallace</strong> · Sr. Account Executive, Amplitude<br>
+      john.wallace@amplitude.com · 631-942-8868
+    </div>
+    <div class="footer-right">
+      Nationwide Insurance × Amplitude<br>
+      Pricing Proposal · June 2026
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
